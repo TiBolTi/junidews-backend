@@ -1,0 +1,16 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <p>Entered data: {{$numbers}}</p>
+    <p>Result: {{$sort_result}}</p>
+    <form action="{{ route('sortalgoritm.sort') }}" method="POST">
+        @csrf
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Заголовок</label>
+            <input type="text" class="form-control" name="title" id="exampleFormControlInput1" placeholder="Введите заголовок ">
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+@endsection
