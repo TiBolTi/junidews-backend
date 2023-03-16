@@ -26,5 +26,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/decoder', [DecodeController::class, 'decoder'])->name('decoder.api');
+Route::post('/decoder', [DecodeController::class, 'unauth_decoder'])->name('decoder.api');
 
+
+Route::post('/auth_decoder', [DecodeController::class, 'auth_decoder'])
+    ->name('auth_decoder.api')
+    ->middleware('auth:sanctum');
