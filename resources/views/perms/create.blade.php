@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <h2>Добавить право</h2>
-    <form class="mb-5" action="{{route('perms.store')}}" method="POST">
+    <form class="mb-5" action="{{ route('perms.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="name">Название</label>
