@@ -101,7 +101,13 @@ class DecodeController extends Controller
 
 
         if ($next_day == '+1') {
-            $arrival_day = $days_of_week[$decode_array[4]+1];
+
+
+            if($decode_array[4] == 7){
+                $arrival_day = $days_of_week[1];
+            }
+            else
+                $arrival_day = $days_of_week[$decode_array[4]+1];
 
         } else {
             $arrival_day = $days_of_week[$decode_array[4]];
