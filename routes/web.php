@@ -72,6 +72,8 @@ Route::middleware(['can:read records'])->group(function () {
 });
 
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/', [DecodeController::class, 'index'])->name('index.decoder');
 
-Route::get('/', [DecodeController::class, 'index'])->name('index.decoder');
 Route::post('/home', [DecodeController::class, 'decoder'])->name('decode.decoder');
+});

@@ -1,10 +1,10 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+
+            <a class="navbar-brand" @if(!Auth::user()) href="http://www.juni-devs.php-f22.ru" @endif  @if(Auth::user()) href="{{ url('/') }} @endif">
                 JUNI-DEVS
             </a>
-
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
