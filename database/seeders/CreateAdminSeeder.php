@@ -32,7 +32,31 @@ class CreateAdminSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        $role->givePermissionTo('show roles');
+        $role->syncPermissions('read users', 'create users', 'edit users', 'detele users',
+            'read roles', 'create roles', 'edit roles', 'detele roles',
+            'read permissions', 'create permissions', 'edit permissions', 'detele permissions',
+            'read records', 'create records', 'edit records', 'detele records');
+
         $admin->assignRole('admin');
+
+        $role = Role::create([
+            'name' => 'moderator',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        $role->syncPermissions('read users', 'read roles','read permissions', 'read records', 'create records', 'edit records', 'detele records');
+
+
+        $role = Role::create([
+            'name' => 'user',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        $role->givePermissionTo('read records');
+
+
+
     }
 }

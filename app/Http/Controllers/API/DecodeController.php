@@ -278,7 +278,7 @@ class DecodeController extends Controller
         } else {
             $result = $ordinary_user;
         }
-        
+
         return $result;
     }
 }

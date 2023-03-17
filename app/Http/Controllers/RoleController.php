@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -14,8 +16,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderBy('name')->get();
-
+        $roles = Role::orderBy('id')->get();
         return view('roles.index',compact('roles'));
     }
 
@@ -26,7 +27,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('roles.create');
+        $permissions = Permission::all();
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -35,20 +37,34 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Permission $permission)
     {
-        //
-    }
+        $data = $request->only(['name', 'permissions']);
+        $role_name = $data['name'];
 
+        $role = Role::create([
+            'name' => $role_name,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        $permissions = $data['permissions'];
+        foreach ($permissions as $permission_id) {
+            $permission = Permission::find($permission_id);
+            $role->givePermissionTo($permission);
+        }
+        return redirect()->route('roles.index');
+    }
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
-        //
+        $permissions = Permission::all();
+        return view('roles.show ', compact('role', 'permissions'));
     }
 
     /**
@@ -57,9 +73,10 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
-        //
+        $permissions = Permission::all();
+        return view('roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -69,9 +86,23 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        //
+        $data = $request->only(['id', 'name', 'permissions']);
+
+
+        $role_name = $data['name'];
+
+        $role = Role::findById($role->id);
+        $role->name = $role_name;
+
+        $permission_ids = $data['permissions'];
+        $permissions = Permission::whereIn('id', $permission_ids)->get();
+        $role->syncPermissions($permissions);
+
+        $role->save();
+
+        return redirect()->route('roles.index');
     }
 
     /**
@@ -80,8 +111,11 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        //
+
+        $role->delete();
+
+        return redirect()->route('roles.index');
     }
 }

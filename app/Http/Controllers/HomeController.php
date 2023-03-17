@@ -21,8 +21,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(DecodeController $decoding)
     {
-        return view('home');
+        $decoding = null;
+        return view('home', compact('decoding'));
     }
 }

@@ -1,0 +1,20 @@
+/*.card {*/
+/*    width: 100%;*/
+/*    max-width: 500px;*/
+/*    margin: 0 auto;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.card .card-text {*/
+/*    margin-bottom: 1rem;*/
+/*}*/
+
+/*.card .full-description {*/
+/*    display: none;*/
+/*}*/
+.card-footer {
+    margin-top: 10px;
+    border-top: #6c757d 1px solid;
+    background-color: unset;
+}
+
